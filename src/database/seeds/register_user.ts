@@ -26,7 +26,9 @@ export async function seed(knex: Knex){
     
     await knex('users').insert([
         {
-            password: "1234"
+            password: "1234",
+            addressID: 1,
+            contactID: 1
         }
     ]);
 }

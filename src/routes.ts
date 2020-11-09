@@ -1,12 +1,18 @@
 import express from 'express';
-import ClassesControllers from './controllers/ClassesControllers';
-import ConnectionsController from './controllers/ConnectionsController';
-
+import UsersControllers from './controllers/UsersControllers';
 
 const routes = express.Router();
+const usersControllers = new UsersControllers();
 
-routes.get('/', (request, response) => {
-    response.json({msg: "Hello World!"})
-})
+
+routes.post('/createUser', usersControllers.createUser);
+
+routes.get('/showUsers', usersControllers.showUsers);
+
+routes.delete('/remove', usersControllers.removeUser);
+
+routes.put('/update/:id', usersControllers.updateUser);
+
+
 
 export default routes;
