@@ -1,7 +1,7 @@
 import {Request, Response} from 'express';
 import knex from '../database/connection';
 
-class UsersControllers{
+class UsersControllers{ 
   //metodo para cadastro
   async createUser(request: Request, response: Response){
     const {email} = request.body;
@@ -12,7 +12,6 @@ class UsersControllers{
     
     if(emailExists){
       await trx.rollback();
-      console.log(emailExists);
       return response.status(400).json({error: 'E-mail já cadastrado'});
     }
     
@@ -33,8 +32,9 @@ class UsersControllers{
   //metodo para atualizar informações
   async updateUser(request: Request, response: Response){
     const {id} = request.params;
-    
-    const requestObj = request.body;
+    const {
+      name, email, phoneNumber, password, publicPlace, houseNumber, complement, postalCode, neighborhood, city, uf, country
+    } = request.body
 
     const trx = await knex.transaction();
 
@@ -44,12 +44,35 @@ class UsersControllers{
       return response.status(400).json({error: "Usuário não existe"});
     }
 
-    requestObj.forEach(element => {
-      
-    });
+    const emailExists = await trx('users').where('email', email).first();
+    
+    /*if(emailExists){
+      await trx.rollback();
+      console.log(requestObj)
+      return response.status(400).json({error: 'E-mail já cadastrado'});
+    }
+    */
 
+    await trx('users').where('id', id).
+      update(
+        {
+          name,
+          email,
+          phoneNumber, 
+          password, 
+          publicPlace, 
+          houseNumber, 
+          complement, 
+          postalCode, 
+          neighborhood, 
+          city, 
+          uf, 
+          country
+        } 
+      );
 
-
+    await trx.commit();
+    return response.json('Usuário atualizado com sucesso!');
   }
 
   //metodo para deletar usuario
