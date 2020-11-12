@@ -82,7 +82,7 @@ class AnimalsControllers{
         const deleted = await knex('animal').where('id', id).del();
 
         if(deleted == 0){
-        return response.status(400).json('Pet não existe ou já foi removido');
+            return response.status(400).json('Pet não existe ou já foi removido');
         }
         
         return response.status(200).json('Pet removido com sucesso!');

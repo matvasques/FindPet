@@ -68,7 +68,7 @@ class UsersControllers{
 
   //metodo para atualizar informações
   async updateUser(request: Request, response: Response){
-    const {id} = request.params;
+    const {idUser} = request.params;
     const {
       name, email, phoneNumber, password, publicPlace, houseNumber, complement, postalCode, neighborhood, city, uf, country
     } = request.body
@@ -76,7 +76,7 @@ class UsersControllers{
     const trx = await knex.transaction();
     
     try{
-      const idExists = await trx('users').where('id', id).first();
+      const idExists = await trx('users').where('id', idUser).first();
 
       if(!idExists){
         return response.status(400).json({error: "Usuário não existe"});
@@ -91,7 +91,7 @@ class UsersControllers{
       }
       */
 
-      await trx('users').where('id', id).
+      await trx('users').where('id', idUser).
         update(
           {
             name,
