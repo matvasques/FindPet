@@ -7,6 +7,7 @@ export async function up (knex: knex){
         table.string('email', 32).notNullable();
         table.string('phoneNumber', 32).notNullable();
         table.string('password', 64).notNullable();
+        table.string('salt');
         table.string('publicPlace', 32).notNullable();
         table.bigInteger('houseNumber').notNullable();
         table.string('complement', 64).notNullable();
