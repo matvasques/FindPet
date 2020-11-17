@@ -22,7 +22,7 @@ class OccurrencesControllers{
             });
 
             await trx.commit();
-            return response.status(201).json('Ocorrência cadastrada com sucesso!');
+            return response.status(201).json({msg: 'Ocorrência cadastrada com sucesso!'});
         }
         catch(error){
             console.log("ERROR: " + error);
@@ -40,7 +40,7 @@ class OccurrencesControllers{
         }
         catch(error){
             console.log("ERROR: " + error);
-            return response.status(404).json('Sua solicitação não foi encontrada');
+            return response.status(404).json({error: 'Sua solicitação não foi encontrada'});
         }
     }
 
@@ -60,7 +60,7 @@ class OccurrencesControllers{
             });
     
             await trx.commit();
-            return response.status(200).json('Ocorrência atualizada com sucesso!');
+            return response.status(200).json({msg: 'Ocorrência atualizada com sucesso!'});
         }
         catch(error){
             console.log("ERROR: " + error);
@@ -78,10 +78,10 @@ class OccurrencesControllers{
         const deleted = await knex('occurrence').where('id', id).del();
 
         if(deleted == 0){
-            return response.status(400).json('Ocorrência não existe ou já foi removida');
+            return response.status(400).json({error: 'Ocorrência não existe ou já foi removida'});
         }
         
-        return response.status(200).json('Ocorrência removida com sucesso!');
+        return response.status(200).json({msg: 'Ocorrência removida com sucesso!'});
     }
     
 }

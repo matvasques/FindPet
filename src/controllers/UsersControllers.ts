@@ -41,7 +41,7 @@ class UsersControllers{
         } 
       );
       await trx.commit();
-      return response.status(201).json(`Usuário cadastrado com sucesso!`);
+      return response.status(201).json({msg: `Usuário cadastrado com sucesso!`});
     }
 
     catch(error){
@@ -62,7 +62,7 @@ class UsersControllers{
     }
     catch(error){
       console.log("ERROR: " + error);
-      return response.status(404).json('Sua solicitação não foi encontrada');
+      return response.status(404).json({error: 'Sua solicitação não foi encontrada'});
     }
   }
 
@@ -110,7 +110,7 @@ class UsersControllers{
         );
 
       await trx.commit();
-      return response.status(200).json('Usuário atualizado com sucesso!');
+      return response.status(200).json({msg: `Usuário atualizado com sucesso!`});
     }
     
     catch(error){
@@ -129,10 +129,10 @@ class UsersControllers{
     const deleted = await knex('users').where('id', id).del();
 
     if(deleted == 0){
-      return response.json('Conta não existe ou já foi removida');
+      return response.json({error: 'Conta não existe ou já foi removida'});
     }
     
-    return response.status(200).json('Conta removida com sucesso!');
+    return response.status(200).json({msg: 'Conta removida com sucesso!'});
   }
 
 }

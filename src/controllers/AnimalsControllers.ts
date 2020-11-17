@@ -37,7 +37,7 @@ class AnimalsControllers{
         }
         catch(error){
             console.log("ERROR: " + error);
-            return response.status(404).json('Sua solicitação não foi encontrada');
+            return response.status(404).json({error: 'Sua solicitação não foi encontrada'});
         }
     }
 
@@ -51,7 +51,7 @@ class AnimalsControllers{
             const idExists = await trx('animal').where('id', idAnimal).first();
 
             if(!idExists){
-                return response.status(400).json({error: "Pet não existe"});
+                return response.status(400).json({error: 'Pet não existe'});
             }
 
             await trx('animal').where('id', idAnimal).
@@ -63,7 +63,7 @@ class AnimalsControllers{
             });
             
             await trx.commit();
-            return response.status(200).json('Pet atualizado com sucesso');
+            return response.status(200).json({msg: 'Pet atualizado com sucesso'});
         }
         catch(error){
             console.log("ERROR: " + error);
@@ -82,10 +82,10 @@ class AnimalsControllers{
         const deleted = await knex('animal').where('id', id).del();
 
         if(deleted == 0){
-            return response.status(400).json('Pet não existe ou já foi removido');
+            return response.status(400).json({error: 'Pet não existe ou já foi removido'});
         }
         
-        return response.status(200).json('Pet removido com sucesso!');
+        return response.status(200).json({msg: 'Pet removido com sucesso!'});
     }
 }
 
