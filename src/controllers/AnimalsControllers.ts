@@ -31,9 +31,40 @@ class AnimalsControllers{
     }
 
     async showAnimal(request: Request, response: Response){
+        const { idUser } = request.params;
+        const trx = await knex.transaction();
+
         try{
-            const animals = await knex('animal').select('animal.*')
-            return response.status(200).json(animals);
+            
+            const idExists = await trx('users').where('id', idUser).first();
+            
+            if(!idExists){
+                return response.status(400).json({error: 'Usuario não existe'});
+            }
+            else{
+                const animals = await trx('animal').where('userID', idUser).select('animal.*');
+                return response.status(200).json(animals);
+            }  
+        }
+        catch(error){
+            console.log("ERROR: " + error);
+            return response.status(404).json({error: 'Sua solicitação não foi encontrada'});
+        }
+    }
+
+    async searchForAnimal(request: Request, response: Response){
+        const { idAnimal } = request.params;
+
+        const trx = await knex.transaction();
+
+        try{
+            const idExists = await trx('animal').where('id', idAnimal).first();
+            if(!idExists){
+                return response.status(400).json({error: 'Pet não existe'});
+            }
+
+            const animal = await trx('animal').where('id', idAnimal).select('animal.*');
+            return response.status(200).json(animal);
         }
         catch(error){
             console.log("ERROR: " + error);
