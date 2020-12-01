@@ -1,6 +1,5 @@
 import {Request, Response} from 'express';
 import knex from '../database/connection';
-
 class AnimalsControllers{
     async createAnimal(request: Request, response: Response){
         const {petName, breeds, description, imgURL}  = request.body;
@@ -35,14 +34,14 @@ class AnimalsControllers{
         const trx = await knex.transaction();
 
         try{
-            
+
             const idExists = await trx('users').where('id', idUser).first();
-            
+            const animals = await trx('animal').where('userID', idUser).select('animal.*');
+                 
             if(!idExists){
                 return response.status(400).json({error: 'Usuario não existe'});
             }
             else{
-                const animals = await trx('animal').where('userID', idUser).select('animal.*');
                 return response.status(200).json(animals);
             }  
         }

@@ -5,6 +5,10 @@ module.exports = {
     connection: {
         filename: path.resolve(__dirname, 'src', 'database', 'database.sqlite')
     },
+    pool: {
+        min: 5, 
+        max: 30
+    },
     migrations: {
         directory: path.resolve(__dirname, 'src', 'database', 'migrations')
     },
@@ -13,4 +17,5 @@ module.exports = {
         directory: path.resolve(__dirname, 'src', 'database', 'seeds')
     },
     useNullAsDefault: true,
+    
 };

@@ -40,8 +40,9 @@ class UsersControllers{
           country
         } 
       );
+      const users = await trx('users').select('users.*');
       await trx.commit();
-      return response.status(201).json({msg: `Usuário cadastrado com sucesso!`});
+      return response.status(201).json(users);
     }
 
     catch(error){
