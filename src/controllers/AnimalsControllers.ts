@@ -31,24 +31,15 @@ class AnimalsControllers{
 
     async showAnimal(request: Request, response: Response){
         const { idUser } = request.params;
-        const trx = await knex.transaction();
 
         try{
-
-            const idExists = await trx('users').where('id', idUser).first();
-            const animals = await trx('animal').where('userID', idUser).select('animal.*');
-                 
-            if(!idExists){
-                return response.status(400).json({error: 'Usuario não existe'});
-            }
-            else{
-                return response.status(200).json(animals);
-            }  
-        }
-        catch(error){
+            const animals = await knex('animal').select('animal.*').where('userID', idUser)
+            return response.status(200).json(animals);
+          }
+          catch(error){
             console.log("ERROR: " + error);
             return response.status(404).json({error: 'Sua solicitação não foi encontrada'});
-        }
+          }
     }
 
     async searchForAnimal(request: Request, response: Response){
